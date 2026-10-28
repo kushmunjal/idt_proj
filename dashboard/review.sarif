@@ -1,0 +1,227 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "CodeSentinel AI",
+          "version": "1.0.0",
+          "informationUri": "https://github.com/kushmunjal/codesentinel-ai",
+          "rules": [
+            {
+              "id": "codesentinel/bug",
+              "name": "BugRule",
+              "shortDescription": {
+                "text": "CodeSentinel Bug finding"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "codesentinel/security",
+              "name": "SecurityRule",
+              "shortDescription": {
+                "text": "CodeSentinel Security finding"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "codesentinel/bug",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "The `add` and `subtract` methods lack type validation, allowing non\u2011numeric objects (e.g., strings, lists) to be passed which can produce unexpected results such as string concatenation or raise runtime errors later."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "calculator.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Suggested code fix"
+              },
+              "fileChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "calculator.py"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 22,
+                        "endLine": 22
+                      },
+                      "insertedContent": {
+                        "text": "Add the same isinstance check used in `multiply` and `divide`, raising a TypeError for non\u2011int/float inputs."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "codesentinel/bug",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "The `power` method does not validate operand types. Supplying non\u2011numeric values (e.g., strings, None) will raise a TypeError at the exponent comparison or produce undefined behavior."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "calculator.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 73,
+                  "endLine": 73
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Suggested code fix"
+              },
+              "fileChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "calculator.py"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 73,
+                        "endLine": 73
+                      },
+                      "insertedContent": {
+                        "text": "Add a type\u2011validation guard similar to other methods: `if not isinstance(base, (int, float)) or not isinstance(exponent, (int, float)):` raise TypeError."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "codesentinel/bug",
+          "ruleIndex": 0,
+          "level": "note",
+          "message": {
+            "text": "When `base` is negative and `exponent` is a non\u2011integer (e.g., 0.5), Python returns a complex number. This may be unintended for a calculator that advertises real\u2011number results."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "calculator.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 78,
+                  "endLine": 78
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Suggested code fix"
+              },
+              "fileChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "calculator.py"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 78,
+                        "endLine": 78
+                      },
+                      "insertedContent": {
+                        "text": "Either document that complex results are possible or enforce integer exponents for negative bases, raising a ValueError for such cases."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "codesentinel/security",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "The type checks use `isinstance(..., (int, float))`. In Python, `bool` is a subclass of `int`, so `True`/`False` will be accepted as valid numeric inputs, which might be undesirable in a strict calculator."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "calculator.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 55,
+                  "endLine": 55
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Suggested code fix"
+              },
+              "fileChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "calculator.py"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 55,
+                        "endLine": 55
+                      },
+                      "insertedContent": {
+                        "text": "Explicitly exclude booleans: `isinstance(a, (int, float)) and not isinstance(a, bool)` (same for `b`)."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

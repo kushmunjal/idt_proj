@@ -6,9 +6,13 @@ pydantic
 SQLAlchemy
 PyYAML
 prometheus-client
+pyjwt
+bcrypt
 
 [dev]
 pytest
 pytest-cov
+pytest-asyncio
 ruff
 mypy
+playwright

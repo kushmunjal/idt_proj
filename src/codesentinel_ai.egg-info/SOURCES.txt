@@ -11,6 +11,7 @@ src/codesentinel/api/auth.py
 src/codesentinel/api/database.py
 src/codesentinel/api/main.py
 src/codesentinel/api/schemas.py
+src/codesentinel/api/webhook.py
 src/codesentinel/checks/__init__.py
 src/codesentinel/checks/heuristics.py
 src/codesentinel/checks/secrets.py
@@ -21,14 +22,18 @@ src/codesentinel/diff/filter.py
 src/codesentinel/diff/positions.py
 src/codesentinel/llm/__init__.py
 src/codesentinel/llm/base.py
+src/codesentinel/llm/cache.py
 src/codesentinel/llm/openai_compat.py
 src/codesentinel/llm/retry.py
 src/codesentinel/observability/__init__.py
+src/codesentinel/observability/logger.py
 src/codesentinel/observability/metrics.py
 src/codesentinel/review/__init__.py
+src/codesentinel/review/checks_api.py
 src/codesentinel/review/context.py
 src/codesentinel/review/pipeline.py
 src/codesentinel/review/publish.py
+src/codesentinel/review/sarif.py
 src/codesentinel/triage/__init__.py
 src/codesentinel/triage/duplicates.py
 src/codesentinel/triage/pipeline.py
